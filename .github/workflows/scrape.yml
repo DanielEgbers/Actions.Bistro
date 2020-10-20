@@ -12,7 +12,6 @@ jobs:
     env:
       DOTNET_NOLOGO: true
       DOTNET_CLI_TELEMETRY_OPTOUT: true
-      WOCHENPLAN_URL: ${{ secrets.WOCHENPLAN_URL }}
     steps:
     - name: checkout scripts
       uses: actions/checkout@v2
@@ -31,6 +30,8 @@ jobs:
       run: |-
         dotnet script --debug scripts/actions.csx -- --help
     - name: scrape
+      env:
+        WOCHENPLAN_URL: ${{ secrets.WOCHENPLAN_URL }}
       run: |-
         dotnet script scripts/actions.csx scrape
     - name: push
