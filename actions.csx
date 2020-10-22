@@ -4,11 +4,11 @@
 
 #nullable enable
 
+using static SimpleExec.Command;
+
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using Flurl.Http;
-
-using static SimpleExec.Command;
 
 return await InvokeCommandAsync(Args.ToArray());
 
