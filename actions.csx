@@ -38,14 +38,18 @@ private async Task<int> InvokeCommandAsync(string[] args)
             if (Debugger.IsAttached)
                 return;
 
-            var workingDirectory = Path.GetDirectoryName(WochenplanFilePath)!;
+            var dataPath = Path.GetDirectoryName(WochenplanFilePath)!;
 
-            await Git.ConfigUserAsync(workingDirectory, "GitHub Actions", "actions@users.noreply.github.com");
-
-            if (!await Git.CommitAsync(workingDirectory, "update {files}", Path.GetFileName(WochenplanFilePath)))
+            if (!(await Git.GetChangesAsync(workingDirectory: dataPath)).Any())
                 return;
 
-            await Git.PushAsync(workingDirectory);
+            await Git.ConfigUserAsync(name: "GitHub Actions", email: "actions@users.noreply.github.com", workingDirectory: dataPath);
+
+            await Git.StageAllAsync(workingDirectory: dataPath);
+
+            await Git.CommitAsync("update", workingDirectory: dataPath);
+
+            await Git.PushAsync(workingDirectory: dataPath);
         })
     };
 
