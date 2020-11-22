@@ -35,10 +35,10 @@ private async Task<int> InvokeCommandAsync(string[] args)
     {
         Handler = CommandHandler.Create(async () =>
         {
-            if (Debugger.IsAttached)
-                return;
-
             var dataPath = Path.GetDirectoryName(WochenplanFilePath)!;
+
+            if (!Git.IsRootDirectory(workingDirectory: dataPath))
+                return;
 
             if (!(await Git.GetChangesAsync(workingDirectory: dataPath)).Any())
                 return;
