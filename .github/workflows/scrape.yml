@@ -42,23 +42,3 @@ jobs:
     - name: push
       run: |-
         dotnet script scripts/actions.csx push
-    - name: get status date
-      id: status_date
-      run: |-
-        echo "::set-output name=date::$(date +'%A %Y-%m-%d %H:%M:%S')"
-    - name: find status comment
-      uses: peter-evans/find-comment@v2
-      id: find_comment
-      with:
-        issue-number: ${{ vars.STATUS_ISSUE_ID }}
-        comment-author: 'github-actions[bot]'
-        body-includes: ${{ vars.STATUS_ISSUE_COMMENT_TITLE }}
-    - name: update status comment
-      uses: peter-evans/create-or-update-comment@v2
-      with:
-        issue-number: ${{ vars.STATUS_ISSUE_ID }}
-        comment-id: ${{ steps.find_comment.outputs.comment-id }}
-        edit-mode: replace
-        body: |
-          ## ${{ vars.STATUS_ISSUE_COMMENT_TITLE }}
-          ${{ steps.status_date.outputs.date }}
