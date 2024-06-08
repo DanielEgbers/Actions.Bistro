@@ -14,11 +14,11 @@ jobs:
       DOTNET_CLI_TELEMETRY_OPTOUT: true
     steps:
     - name: checkout scripts
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: scripts
     - name: checkout shared
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: DanielEgbers/Actions.Shared
         path: Actions.Shared
